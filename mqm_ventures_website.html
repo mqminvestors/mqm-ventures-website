@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MQM Ventures - Global Financial Partner</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ==================== SCROLL PROGRESS BAR ==================== */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #000 0%, #333 100%);
+            width: 0%;
+            z-index: 1001;
+        }
+
+        /* ==================== NAVIGATION BAR ==================== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 10px 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-size: 26px;
+            font-weight: 700;
+            color: #000;
+            letter-spacing: 1px;
+            animation: slideInLeft 0.6s ease;
+        }
+
+        .navbar-links {
+            display: flex;
+            gap: 35px;
+            list-style: none;
+        }
+
+        .navbar-links li {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            color: #666;
+            opacity: 0;
+            animation: slideInRight 0.6s ease forwards;
+        }
+
+        .navbar-links li:nth-child(1) { animation-delay: 0.1s; }
+        .navbar-links li:nth-child(2) { animation-delay: 0.2s; }
+        .navbar-links li:nth-child(3) { animation-delay: 0.3s; }
+        .navbar-links li:nth-child(4) { animation-delay: 0.4s; }
+        .navbar-links li:nth-child(5) { animation-delay: 0.5s; }
+
+        .navbar-links li:hover {
+            color: #1a5f7a;
+            transform: translateY(-2px);
+        }
+
+        .navbar-links li.active {
+            color: #1a5f7a;
+            border-bottom: 3px solid #1a5f7a;
+            padding-bottom: 3px;
+        }
+
+        .navbar-btn {
+            background: #1a5f7a;
+            color: white;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: slideInRight 0.6s ease 0.6s forwards;
+        }
+
+        .navbar-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(26, 95, 122, 0.4);
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* ==================== HERO SECTION ==================== */
+        .hero {
+            background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%);
+            padding: 100px 40px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 70px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            max-width: 1400px;
+            align-items: center;
+            width: 100%;
+        }
+
+        .hero-text h1 {
+            font-size: 54px;
+            color: #000;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            animation: fadeInDown 1s ease;
+        }
+
+        .hero-text p {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 30px;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .btn {
+            padding: 14px 35px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 15px;
+        }
+
+        .btn-primary {
+            background: #000;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1a5f7a;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #000;
+            border: 2px solid #000;
+        }
+
+        .btn-secondary:hover {
+            background: #000;
+            color: white;
+        }
+
+        .hero-images {
+            position: relative;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a5f7a 0%, #2a7f9a 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 60px;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.3s both;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-placeholder::before {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            top: -100px;
+            right: -100px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(30px); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ==================== FULL-SCREEN SECTIONS ==================== */
+        .section {
+            min-height: 100vh;
+            padding: 100px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        .section.visible {
+            opacity: 1;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .section-content {
+            max-width: 1400px;
+            width: 100%;
+        }
+
+        .section-title {
+            font-size: 48px;
+            color: #000;
+            text-align: center;
+            margin-bottom: 60px;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        /* ==================== WHO WE ARE SECTION ==================== */
+        .who-we-are {
+            background: white;
+        }
+
+        .who-we-are-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .who-we-are-text h3 {
+            font-size: 28px;
+            color: #000;
+            margin-bottom: 20px;
+            animation: fadeInLeft 0.8s ease;
+        }
+
+        .who-we-are-text p {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 20px;
+            line-height: 1.8;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .who-we-are-image {
+            animation: fadeInRight 0.8s ease;
+        }
+
+        .image-placeholder-who {
+            width: 100%;
+            height: 450px;
+            background: linear-gradient(135deg, #1a5f7a 0%, #2a7f9a 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-placeholder-who::before {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            top: -100px;
+            right: -100px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes fadeInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes fadeInRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* ==================== WHAT WE DO SECTION ==================== */
+        .what-we-do {
+            background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 35px;
+        }
+
+        .service-card {
+            background: rgba(26, 95, 122, 0.08);
+            padding: 40px 30px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        .service-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+            background: rgba(26, 95, 122, 0.12);
+        }
+
+        .service-card h3 {
+            color: #000;
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+
+        .service-card p {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        /* ==================== BLOG SECTION ==================== */
+        .blog {
+            background: white;
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+        }
+
+        .blog-card {
+            background: rgba(26, 95, 122, 0.06);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        .blog-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .blog-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+            background: rgba(26, 95, 122, 0.10);
+        }
+
+        .blog-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #1a5f7a 0%, #2a7f9a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 48px;
+        }
+
+        .blog-content {
+            padding: 25px;
+        }
+
+        .blog-date {
+            font-size: 12px;
+            color: #1a5f7a;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .blog-title {
+            font-size: 18px;
+            color: #000;
+            margin-bottom: 12px;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .blog-excerpt {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* ==================== CONTACT SECTION ==================== */
+        .contact {
+            background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .contact .section-title {
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        .contact-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-content p {
+            font-size: 18px;
+            margin-bottom: 40px;
+            opacity: 0.95;
+            line-height: 1.8;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .contact-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+
+        .contact-btn {
+            background: white;
+            color: #000;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .contact-btn:hover {
+            background: #1a5f7a;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* ==================== FOOTER ==================== */
+        .footer {
+            background: #000;
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .footer p {
+            margin-bottom: 15px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #999;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #1a5f7a;
+        }
+
+        /* ==================== RESPONSIVE ==================== */
+        @media (max-width: 1024px) {
+            .hero-content, .who-we-are-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .hero-text h1 {
+                font-size: 42px;
+            }
+
+            .section-title {
+                font-size: 36px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 12px 20px;
+            }
+
+            .navbar-links {
+                display: none;
+            }
+
+            .navbar-btn {
+                display: none;
+            }
+
+            .hero {
+                padding: 80px 20px;
+                margin-top: 60px;
+            }
+
+            .hero-text h1 {
+                font-size: 32px;
+            }
+
+            .hero-text p {
+                font-size: 16px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .section {
+                padding: 60px 20px;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress"></div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-brand">MQM VENTURES</div>
+        <ul class="navbar-links">
+            <li onclick="scrollToSection('home', this)">Home</li>
+            <li onclick="scrollToSection('who-we-are', this)">Who We Are</li>
+            <li onclick="scrollToSection('what-we-do', this)">What We Do</li>
+            <li onclick="scrollToSection('blog', this)">Blog</li>
+            <li onclick="scrollToSection('contact', this)">Contact</li>
+        </ul>
+        <button class="navbar-btn">Get Started</button>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>We believe in ourselves, we believe in you.</h1>
+                <p>Your trusted partner for international money remittance, currency exchange, financial consultancy, and loans. Growing your wealth globally, one transaction at a time.</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary">Explore Services</button>
+                    <button class="btn btn-secondary">Learn More</button>
+                </div>
+            </div>
+            <div class="hero-images">
+                <div class="image-placeholder">
+                    Hero Image
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Who We Are Section -->
+    <section class="section who-we-are" id="who-we-are">
+        <div class="section-content">
+            <h2 class="section-title">Who We Are</h2>
+            <div class="who-we-are-content">
+                <div class="who-we-are-text">
+                    <h3>MQM Ventures</h3>
+                    <p>MQM Ventures is a leading financial consultancy and investment firm committed to enabling seamless global financial operations. We specialize in connecting international markets with innovative financial solutions.</p>
+                    <p>Founded on principles of trust, transparency, and excellence, we serve thousands of clients across multiple continents. Our team of experienced financial professionals brings decades of combined expertise to every transaction.</p>
+                    <p>We believe that financial success should be accessible to everyone, regardless of geographic boundaries. That's why we've built a comprehensive platform offering international money remittance, currency exchange, real estate services, and flexible loan options.</p>
+                </div>
+                <div class="who-we-are-image">
+                    <div class="image-placeholder-who">
+                        About Us Image
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What We Do Section -->
+    <section class="section what-we-do" id="what-we-do">
+        <div class="section-content">
+            <h2 class="section-title">What We Do</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3>International Money Remittance</h3>
+                    <p>Fast, secure, and transparent money transfers to over 195 countries with competitive exchange rates.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Real Estate Buyers Agent</h3>
+                    <p>Expert guidance in navigating the property market to find your perfect investment or home.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Home Loan</h3>
+                    <p>Flexible home financing solutions with competitive rates to help you own your dream home.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Business Loan</h3>
+                    <p>Tailored financing solutions for businesses to fuel growth and expansion in global markets.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Currency Exchange</h3>
+                    <p>Real-time currency exchange with competitive rates and transparent pricing.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Financial Consultancy</h3>
+                    <p>Expert guidance for investment strategy, wealth management, and financial planning.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section class="section blog" id="blog">
+        <div class="section-content">
+            <h2 class="section-title">Blog</h2>
+            <div class="blog-grid">
+                <div class="blog-card">
+                    <div class="blog-image">
+                        Article 1
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-date">November 15, 2024</div>
+                        <div class="blog-title">Understanding International Money Transfers</div>
+                        <div class="blog-excerpt">Learn the best practices for sending money internationally and how to avoid common pitfalls.</div>
+                    </div>
+                </div>
+                <div class="blog-card">
+                    <div class="blog-image">
+                        Article 2
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-date">November 10, 2024</div>
+                        <div class="blog-title">Global Currency Trends 2024</div>
+                        <div class="blog-excerpt">Explore the latest trends in global currency markets and what they mean for your finances.</div>
+                    </div>
+                </div>
+                <div class="blog-card">
+                    <div class="blog-image">
+                        Article 3
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-date">November 5, 2024</div>
+                        <div class="blog-title">Investment Strategies for Growth</div>
+                        <div class="blog-excerpt">Discover proven investment strategies to help you build and grow your wealth sustainably.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section contact" id="contact">
+        <div class="section-content">
+            <h2 class="section-title">Get in Touch</h2>
+            <div class="contact-content">
+                <p>Ready to partner with us? Contact our team today to discuss how we can help you achieve your financial goals.</p>
+                <div class="contact-buttons">
+                    <button class="contact-btn">Send Email</button>
+                    <button class="contact-btn">Schedule Call</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 MQM Ventures. All Rights Reserved.</p>
+        <div class="footer-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Security</a>
+        </div>
+    </footer>
+
+    <script>
+        // ==================== SCROLL PROGRESS BAR ==================== 
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            document.querySelector('.scroll-progress').style.width = scrollPercent + '%';
+
+            updateNavbar();
+            observeSections();
+        });
+
+        // ==================== NAVBAR SCROLL EFFECT ==================== 
+        function updateNavbar() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        }
+
+        // ==================== SECTION OBSERVATION ==================== 
+        const observerOptions = {
+            threshold: 0.3,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    const cards = entry.target.querySelectorAll('.service-card, .blog-card');
+                    cards.forEach((card, index) => {
+                        setTimeout(() => {
+                            card.classList.add('visible');
+                        }, index * 150);
+                    });
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // ==================== SMOOTH SCROLL TO SECTIONS ==================== 
+        function scrollToSection(sectionId, element) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+                
+                document.querySelectorAll('.navbar-links li').forEach(li => {
+                    li.classList.remove('active');
+                });
+                if (element) {
+                    element.classList.add('active');
+                }
+            }
+        }
+
+        // ==================== NAVBAR SECTION HIGHLIGHTING ==================== 
+        function observeSections() {
+            const sections = document.querySelectorAll('.section');
+            const navLinks = document.querySelectorAll('.navbar-links li');
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+
+                if (window.scrollY >= sectionTop - 200 && window.scrollY < sectionTop + sectionHeight - 200) {
+                    const sectionId = section.getAttribute('id');
+                    
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                    });
+
+                    const activeLink = document.querySelector(`[onclick*="${sectionId}"]`);
+                    if (activeLink) {
+                        activeLink.classList.add('active');
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
